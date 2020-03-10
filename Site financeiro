@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FireFly Solutions</title>
+</head>
+<body style="background-color:deepskyblue;margin: 0.5px">
+  <center>
+      <h3 style="color: gold;background-color:blue">Simulador Financeiro</h3> 
+
+   <b>Faça sua simulação Agora!</b><br><br>
+
+
+   
+   Nome da sua Empresa: <input style="border-radius: 5px; margin-bottom: 5px" id="emp"><br><!-- Nome da empresa-->
+   Quantas lampadas há na sua empresa?: <input style="border-radius: 5px; margin-bottom: 5px" id="qtd"><br><!--Quantidade de lampadas-->
+   Elas são de quantos Watts?: <input style="border-radius: 5px; margin-bottom: 5px" id="wat"><br><!-- Quantidade de Watts por lampada-->
+   Quantas horas por dia ficam acessas?: <input style="border-radius: 5px; margin-bottom: 5px" id="ace"><br><!-- Quantas horas estão em funcionamento-->
+   Quantos dias por mês elas estão em funcionamento?: <input style="border-radius: 5px; margin-bottom: 5px" id="mes"><br><br><!-- Quantos dias por mês-->
+
+   <button style="border-radius: 5px; color: black" onclick="vai()"><b>Calcular</b></button><br><br>
+   <div id="tey"></div><br> 
+   
+   
+   <button style="border-radius: 5px; color: black" onclick="cliente()"><b>Sua economia</b></button><br><br>
+   <div id="calculo"></div>
+  
+   <!-- Os comentários abaixo são para uma possivel continuação do projeto :)
+       Sua Região: <input style="border-radius: 5px; margin-bottom: 5px; margin-left: 10px" id="est"><br>-->
+   <!--Quantos Metros quadrados há dentro de sua empresa?: <input style="border-radius: 5px; margin-bottom: 5px" id="m2"><br>-->
+   <!-- o valor de watts deverá ser mutiplicado por 80 (1 watts = 80 lumens),logo após pegamos o resultado e dividimos por metro quadrado, resultando no numéro de Lux
+   var lx = ((wat.value * qtd.value * 80) / m2.value);
+   var lux2 = (((wat.value * qtd.value) - calma) * 80) / m2.value;-->
+
+</center>
+
+</body>
+</html>
+<script>
+function vai(){
+var moneyhora = 0.67; //  é o valor do consumo em reais por kw/h em SP
+var tte = (((wat.value / 1000) * qtd.value) * ace.value); // Aqui eu tenho o consumo de kW/h diario
+var tt = (tte * moneyhora) * mes.value; // Aqui eu tenho o consumo de kW/h mensal
+
+tey.innerHTML = `O Gasto mensal da <b style="color: blue">${emp.value}</b> é de R$ <b style="color: red">${(tt).toFixed(2)}</b>`; // O que irá aparecer na tela
+}
+
+function cliente(){
+    var moneyhora = 0.67; // é o valor do consumo em reais por kw/h em SP
+    var solar = 1.10; // O indice de kw/h por luminosidade em SP é de 5,6; entretanto fizemos uma redução devido a variação climática e tambem as varias fases durante o dia
+    var cash = solar * ace.value;
+    var tte = (((wat.value / 1000) * qtd.value) * ace.value);
+    var eco = ((tte - cash) * moneyhora) * mes.value;
+    var tt = (tte * moneyhora) * mes.value;
+    var percentual = 100 - ((eco * 100) / tt);
+    
+    calculo.innerHTML = `Com a FireFly Solutions, você gastaria somente R$${(eco).toFixed(2)}, economizando ${(percentual).toFixed(2)}%, Uau!`
+}
+// Gente ainda preciso ajustar o cálculo dos Luxes em nossa Solução... :)
+
+</script>
