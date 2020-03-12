@@ -8,4 +8,5 @@ void setup(){
 void loop(){
   sensorValue = analogRead(sensorPin);
   Serial.println(sensorValue);
+delay (1000)
 }
