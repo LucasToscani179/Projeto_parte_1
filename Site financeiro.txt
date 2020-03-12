@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FireFly Solutions</title>
+    <title>FireFly </title>
 </head>
-<body style="background-color:deepskyblue;margin: 0.5px">
+<body style="background-color:rgb(166, 166, 167);margin: 0.5px">
   <center>
-      <h3 style="color: gold;background-color:blue">Simulador Financeiro</h3> 
+      <h3 style="color: rgb(255, 254, 250); background-color: black">Simulador Financeiro</h3> 
 
-   <b>Faça sua simulação Agora!</b><br><br>
+   <b>Faça sua simulação agora!</b><br><br>
 
 
    
-   Nome da sua Empresa: <input style="border-radius: 5px; margin-bottom: 5px" id="emp"><br><!-- Nome da empresa-->
-   Quantas lampadas há na sua empresa?: <input style="border-radius: 5px; margin-bottom: 5px" id="qtd"><br><!--Quantidade de lampadas-->
-   Elas são de quantos Watts?: <input style="border-radius: 5px; margin-bottom: 5px" id="wat"><br><!-- Quantidade de Watts por lampada-->
-   Quantas horas por dia ficam acessas?: <input style="border-radius: 5px; margin-bottom: 5px" id="ace"><br><!-- Quantas horas estão em funcionamento-->
-   Quantos dias por mês elas estão em funcionamento?: <input style="border-radius: 5px; margin-bottom: 5px" id="mes"><br><br><!-- Quantos dias por mês-->
+   Nome da sua empresa: <input style="border-radius: 5px; margin-bottom: 5px" id="empresa"><br><!-- Nome da empresa-->
+   Quantas lâmpadas há na sua empresa? <input style="border-radius: 5px; margin-bottom: 5px" id="qtd_lampadas"><br><!--Quantidade de lampadas-->
+   Elas são de quantos Watts? <input style="border-radius: 5px; margin-bottom: 5px" id="watts"><br><!-- Quantidade de Watts por lampada-->
+   Quantas horas por dia ficam acessas? <input style="border-radius: 5px; margin-bottom: 5px" id="hora"><br><!-- Quantas horas estão em funcionamento-->
+   Quantos dias por mês elas estão em funcionamento? <input style="border-radius: 5px; margin-bottom: 5px" id="mes"><br><br><!-- Quantos dias por mês-->
 
-   <button style="border-radius: 5px; color: black" onclick="vai()"><b>Calcular</b></button><br><br>
-   <div id="tey"></div><br> 
+   <button style="border-radius: 5px; color: rgb(0, 0, 0)" onclick="no_cliente()"><b>Calcular</b></button><br><br>
+   <div id="fora"></div><br> 
    
    
    <button style="border-radius: 5px; color: black" onclick="cliente()"><b>Sua economia</b></button><br><br>
-   <div id="calculo"></div>
+   <div id="dentro"></div>
   
    <!-- Os comentários abaixo são para uma possivel continuação do projeto :)
        Sua Região: <input style="border-radius: 5px; margin-bottom: 5px; margin-left: 10px" id="est"><br>-->
@@ -39,25 +39,26 @@
 </body>
 </html>
 <script>
-function vai(){
-var moneyhora = 0.67; //  é o valor do consumo em reais por kw/h em SP
-var tte = (((wat.value / 1000) * qtd.value) * ace.value); // Aqui eu tenho o consumo de kW/h diario
-var tt = (tte * moneyhora) * mes.value; // Aqui eu tenho o consumo de kW/h mensal
+var preco = 0.515; // é o valor do consumo em reais por kw/h em SP
 
-tey.innerHTML = `O Gasto mensal da <b style="color: blue">${emp.value}</b> é de R$ <b style="color: red">${(tt).toFixed(2)}</b>`; // O que irá aparecer na tela
+function no_cliente(){
+var consumo_diario = (((watts.value / 1000) * qtd_lampadas.value) * hora.value); // Aqui eu tenho o consumo de kW/h diario
+var tt = (consumo_diario * preco) * mes.value; // Aqui eu tenho o consumo de kW/h mensal
+
+fora.innerHTML = `O gasto mensal da <b>${empresa.value}</b> é de <b style="color: red">R$ ${(tt).toFixed(2)}</b>.`; // O que irá aparecer na tela
 }
 
 function cliente(){
-    var moneyhora = 0.67; // é o valor do consumo em reais por kw/h em SP
-    var solar = 1.10; // O indice de kw/h por luminosidade em SP é de 5,6; entretanto fizemos uma redução devido a variação climática e tambem as varias fases durante o dia
-    var cash = solar * ace.value;
-    var tte = (((wat.value / 1000) * qtd.value) * ace.value);
-    var eco = ((tte - cash) * moneyhora) * mes.value;
-    var tt = (tte * moneyhora) * mes.value;
-    var percentual = 100 - ((eco * 100) / tt);
     
-    calculo.innerHTML = `Com a FireFly Solutions, você gastaria somente R$${(eco).toFixed(2)}, economizando ${(percentual).toFixed(2)}%, Uau!`
+    var iluminacao_natural = 1.10; // O indice de kw/h por luminosidade em SP é de 5,6; entretanto fizemos uma redução devido a variação climática e tambem as varias fases durante o dia
+    var energia_da_solucao = (Number(iluminacao_natural) + Number(0.020)) * hora.value; // O 0,020 kw é referente as lampadas de LED dimerizaveis
+    var consumo_diario = (((watts.value / 1000) * qtd_lampadas.value) * hora.value);
+    var economia = ((consumo_diario - energia_da_solucao) * preco) * mes.value;// seria o resultdo do cliente menos o nosso resultado, que geraria o produto final ( ou preço final)
+    var tt = (consumo_diario * preco) * mes.value;
+    var percentual = 100 - ((economia * 100) / tt);// quanto o cliete esta economizando em porcentagem.
+    
+    dentro.innerHTML = `Com a FireFly Solutions, você gastaria somente <b style="color: blue"> R$ ${(economia).toFixed(2)}</b>, economizando <b style="color: red"> ${(percentual).toFixed(2)}%</b>!`
 }
-// Gente ainda preciso ajustar o cálculo dos Luxes em nossa Solução... :)
+// FireFly, A Luz no fim do Túnel ... :)
 
 </script>
